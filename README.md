@@ -30,9 +30,9 @@ the flag.
 
 ## Prerequisites
 
-- An AgentHog project key (`ah_xxxxxxxx`). Create a site at
-  [hog.brightmotion.io/sites/new](https://hog.brightmotion.io/sites/new) — AgentHog is in
-  early access, so new sites are approved by hand.
+- An AgentHog project key (`ah_xxxxxxxx`). Create a project at
+  [hog.brightmotion.io/projects/new](https://hog.brightmotion.io/projects/new). Project count
+  is capped by plan (Free: 1).
 - For experiments and for the agent to read your analytics back, the CLI:
 
   ```

@@ -17,12 +17,13 @@ cannot see (server-side outcomes, purchases, feature usage).
 
 Every install needs a project key shaped `ah_xxxxxxxx`. If the user has not given you one:
 
-- Ask them to create a site at `https://hog.brightmotion.io/sites/new` and paste the key, or
+- Ask them to create a project at `https://hog.brightmotion.io/projects/new` and paste the key, or
 - If the `ah` CLI is installed and authenticated, run `ah projects list` and use an existing key.
 
-AgentHog is in early access: new sites are approved by hand, so `/sites/new` may hand the
-user a request form instead of a key. If so, stop and let them come back once approved —
-there is nothing to integrate without a key.
+Project creation is capped by plan (Free: 1 project). If `/projects/new` shows an upgrade
+notice instead of the create form, the account is at its cap — stop and let the user
+either reuse an existing project's key or upgrade; there is nothing to integrate
+without a key.
 
 Do not invent a key and do not proceed without one — the tracker silently disables itself
 when `data-project` is missing.
@@ -120,7 +121,7 @@ The `npm i` above installs the current SDK, which is what the `/async-storage` s
 needs. Much older releases (before 0.2.1) had no such subpath and tried to locate
 AsyncStorage themselves — a lazy require Metro cannot resolve statically, producing a fatal
 redbox (`Requiring unknown module`) that no `try/catch` suppresses. Upgrade rather than work
-around it; if a project is genuinely stuck on one of those, pass the peer straight through:
+around it; if a project is stuck on one of those, pass the peer straight through:
 `import AsyncStorage from '@react-native-async-storage/async-storage'` → `storage: AsyncStorage`.
 
 Put the key in `.env` as `EXPO_PUBLIC_AGENTHOG_KEY=ah_xxxxxxxx`. The `enabled` gate above is
@@ -279,6 +280,20 @@ What matters when you write the relay:
 - Server sessions are excluded from `ah traffic` by design (a webhook is not a visit) and
   visible by default in `ah events`.
 
+For a one-off — logging that a deploy or migration happened, or a one-shot import of
+history from a spreadsheet or another tool — do not write a relay. The `ah` CLI wraps this
+call with every convention above applied (`ah track --help`):
+
+```bash
+ah track deploy_completed --prop service=app --prop version=1.9.2
+ah track --file history.csv --event signed_up --ts-col Date --email-col Email --dry-run
+```
+
+`--dry-run` first: it prints the row count, date range, bad rows by line, and a sample
+batch, and the real run refuses bad rows unless `--skip-bad`. A bare `--at` date is UTC
+midnight; a wall-clock time with no offset is the machine's local zone — the verb echoes
+which. No idempotency key: a second run writes every row again.
+
 Full reference, including the subscription-lifecycle event names the mobile dashboard reads:
 `https://hog.brightmotion.io/docs/server`.
 
@@ -300,6 +315,10 @@ Rules that matter when you add custom events:
   Props are queryable via `--by props.plan`; names baked with values are not.
 - `identify(email)` is what stitches a person across devices. Call it at sign-in and after
   sign-up. Prefer email; a bare id still works but will not merge across devices.
+- Send the email in whatever case you have it — AgentHog trims and lowercases addresses on
+  arrival, so a phone that auto-capitalized the form field still resolves to one person.
+  Do not lowercase a non-email id before sending: those are stored verbatim and matched
+  exactly, so folding the case yourself can merge two different users.
 - Never put secrets, tokens, or full PII blobs in props — props are readable by anyone with
   dashboard access.
 
@@ -347,6 +366,17 @@ Two follow-ups worth offering the user:
 
 - **Define a conversion goal** so sessions get marked converted:
   `ah goals set signup "form_submit: waitlist" --project <name>`
+- **Map revenue** if any event carries money. This is config, not another integration: you
+  declare which event holds the amount and in which prop, and it applies retroactively over
+  all history. Let it find the mapping rather than typing one:
+  `ah revenue suggest` → prints the exact commands (and the share of occurrences whose
+  amount actually parses, which is how you catch a wrong prop before it lands in a total).
+  `ah revenue suggest --apply` writes them; `ah revenue config` confirms they hit real
+  events; `ah revenue` and `ah ltv` then work everywhere, including `--by utm_source`.
+  Purchases relayed by a webhook (§7) count without any extra flag.
 - **Give their agent the read surface**: install the `ah` CLI (`npm i -g @brightmotion/agenthog`,
   then `ah login`) and add a short AgentHog section to `CLAUDE.md` so future sessions query
   analytics instead of guessing. Full CLI docs: `https://hog.brightmotion.io/docs/cli`.
+
+To run an A/B test on top of this install (feature flags, experiments, variant metrics),
+use the separate **agenthog-experiment** skill, which ships alongside this one.
