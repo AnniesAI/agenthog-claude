@@ -1,7 +1,7 @@
 {
   "name": "agenthog",
-  "version": "1.0.0",
-  "description": "Integrate AgentHog analytics into a web, React Native, Capacitor, or Unity project, send server-side events, and run A/B tests end to end with feature flags and experiments.",
+  "version": "1.0.1",
+  "description": "Add product analytics and A/B testing to any app with AgentHog. Picks the right SDK for the codebase, wires it in, verifies events arrive, then runs experiments from flag to shipped winner.",
   "author": {
     "name": "BrightMotion",
     "url": "https://hog.brightmotion.io"
