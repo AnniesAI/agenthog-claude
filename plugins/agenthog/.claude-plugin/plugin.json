@@ -1,0 +1,17 @@
+{
+  "name": "agenthog",
+  "version": "1.0.0",
+  "description": "Integrate AgentHog analytics into a web, React Native, Capacitor, or Unity project, send server-side events, and run A/B tests end to end with feature flags and experiments.",
+  "author": {
+    "name": "BrightMotion",
+    "url": "https://hog.brightmotion.io"
+  },
+  "homepage": "https://hog.brightmotion.io",
+  "repository": "https://github.com/AnniesAI/agenthog-claude",
+  "license": "MIT",
+  "keywords": ["analytics", "ab-testing", "feature-flags", "experiments", "react-native", "capacitor", "unity"],
+  "skills": [
+    "./skills/agenthog-integrate",
+    "./skills/agenthog-experiment"
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "agenthog",
+  "description": "AgentHog plugins for Claude Code",
+  "owner": {
+    "name": "BrightMotion",
+    "url": "https://hog.brightmotion.io"
+  },
+  "plugins": [
+    {
+      "name": "agenthog",
+      "description": "Integrate AgentHog analytics into a web, React Native, Capacitor, or Unity project, send server-side events, and run A/B tests end to end with feature flags and experiments.",
+      "author": {
+        "name": "BrightMotion",
+        "url": "https://hog.brightmotion.io"
+      },
+      "category": "development",
+      "source": "./plugins/agenthog",
+      "homepage": "https://hog.brightmotion.io"
+    }
+  ]
+}
