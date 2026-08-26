@@ -193,8 +193,17 @@ and gameplay (world-space objects, UI Toolkit) is instrumented with `Capture`:
 AgentHog.Capture("level_complete", new Dictionary<string, object> { ["level"] = 12 });
 AgentHog.Identify(traits: new Dictionary<string, object> { ["user_id"] = playerId });  // games rarely have emails — a stable user_id trait still stitches identity
 AgentHog.Reset();   // sign-out: device becomes a new anonymous person
-AgentHog.SetLandingParams(new Dictionary<string, string> { ["utm_source"] = "playstore" });  // install attribution — call before the first flush
+AgentHog.SetLandingParams(new Dictionary<string, string> { ["utm_source"] = "playstore" });  // deep-link params — call before the first flush
 ```
+
+Using Singular for install attribution? Point its Internal-BI postbacks at AgentHog:
+generate the postback URL in project settings ("Install attribution — Singular postbacks"),
+paste it into Singular as the app's Internal BI postback endpoint, and include
+`custom_user_id` in the postback template, set from the game via
+`SingularSDK.SetCustomUserId(AgentHog.AnonId)`. Network, campaign, creative and adset names
+then land on the install session's `utm_*` columns (deep-link params keep precedence, and an
+"organic" answer never erases the built-in referrer verdict) and surface in `ah campaigns`,
+`ah user <ref>` (first/latest touch), and `ah users --source <network>`.
 
 Full docs: `https://github.com/AnniesAI/agenthog-unity`.
 
