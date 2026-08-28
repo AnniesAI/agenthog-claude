@@ -197,13 +197,15 @@ AgentHog.SetLandingParams(new Dictionary<string, string> { ["utm_source"] = "pla
 ```
 
 Using Singular for install attribution? Point its Internal-BI postbacks at AgentHog:
-generate the postback URL in project settings ("Install attribution — Singular postbacks"),
-paste it into Singular as the app's Internal BI postback endpoint, and include
-`custom_user_id` in the postback template, set from the game via
-`SingularSDK.SetCustomUserId(AgentHog.AnonId)`. Network, campaign, creative and adset names
-then land on the install session's `utm_*` columns (deep-link params keep precedence, and an
-"organic" answer never erases the built-in referrer verdict) and surface in `ah campaigns`,
-`ah user <ref>` (first/latest touch), and `ah users --source <network>`.
+generate the postback URL in project settings ("Install attribution — Singular postbacks")
+and paste it into Singular as the app's Internal BI postback endpoint. There is no field
+template to configure — Singular POSTs its standard JSON payload in full; just call
+`SingularSDK.SetCustomUserId(AgentHog.AnonId)` in the game so the payload's `user_id`
+identifies the player, and enable the install (and re-engagement) postbacks. Network,
+campaign and creative names then land on the install session's `utm_*` columns (deep-link
+params keep precedence, and an "organic" answer never erases the built-in referrer verdict)
+and surface in `ah campaigns`, `ah user <ref>` (first/latest touch), and
+`ah users --source <network>`.
 
 Full docs: `https://github.com/AnniesAI/agenthog-unity`.
 
