@@ -4,7 +4,7 @@
   "description": "AgentHog plugins for Claude Code",
   "owner": {
     "name": "BrightMotion",
-    "url": "https://hog.brightmotion.io"
+    "url": "https://agenthog.io"
   },
   "plugins": [
     {
@@ -12,11 +12,11 @@
       "description": "Add product analytics and A/B testing to any app with AgentHog. Picks the right SDK for the codebase, wires it in, verifies events arrive, then runs experiments from flag to shipped winner.",
       "author": {
         "name": "BrightMotion",
-        "url": "https://hog.brightmotion.io"
+        "url": "https://agenthog.io"
       },
       "category": "development",
       "source": "./plugins/agenthog",
-      "homepage": "https://hog.brightmotion.io"
+      "homepage": "https://agenthog.io"
     }
   ]
 }

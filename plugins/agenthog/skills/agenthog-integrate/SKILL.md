@@ -17,7 +17,7 @@ cannot see (server-side outcomes, purchases, feature usage).
 
 Every install needs a project key shaped `ah_xxxxxxxx`. If the user has not given you one:
 
-- Ask them to create a project at `https://hog.brightmotion.io/projects/new` and paste the key, or
+- Ask them to create a project at `https://agenthog.io/projects/new` and paste the key, or
 - If the `ah` CLI is installed and authenticated, run `ah projects list` and use an existing key.
 
 Project creation is capped by plan (Free: 1 project). If `/projects/new` shows an upgrade
@@ -54,7 +54,7 @@ from the backend (§7).
 One script tag, before `</head>`, on every page:
 
 ```html
-<script src="https://hog.brightmotion.io/ah.js" data-project="ah_xxxxxxxx" defer></script>
+<script src="https://agenthog.io/ah.js" data-project="ah_xxxxxxxx" defer></script>
 ```
 
 Put it wherever that framework renders `<head>` site-wide — `app/layout.tsx` (Next.js App
@@ -106,7 +106,7 @@ import { AgentHogProvider } from '@brightmotion/agenthog-react-native'
 import { asyncStorage } from '@brightmotion/agenthog-react-native/async-storage'
 
 <AgentHogProvider config={{
-  host: 'https://hog.brightmotion.io',
+  host: 'https://agenthog.io',
   projectKey: process.env.EXPO_PUBLIC_AGENTHOG_KEY ?? '',
   enabled: !!process.env.EXPO_PUBLIC_AGENTHOG_KEY,   // inert no-op when the key is absent
   appName: 'myapp',
@@ -179,7 +179,7 @@ the settings asset unless the game already has a bootstrap script:
   initializes itself on startup. In a public/shared repo, commit that asset **blank** (the
   SDK stays inert) and put the real key in `Assets/Resources/AgentHogSettingsLocal.asset`
   (gitignored) — the `Local` variant takes precedence.
-- **Code:** `AgentHog.Init(new AgentHogConfig { Host = "https://hog.brightmotion.io", ProjectKey = "ah_xxxxxxxx" })`
+- **Code:** `AgentHog.Init(new AgentHogConfig { Host = "https://agenthog.io", ProjectKey = "ah_xxxxxxxx" })`
   once at startup. With a blank key or `Enabled = false` every call is a safe no-op, so
   call sites never need guards.
 
@@ -198,10 +198,13 @@ AgentHog.SetLandingParams(new Dictionary<string, string> { ["utm_source"] = "pla
 
 Using Singular for install attribution? Point its Internal-BI postbacks at AgentHog:
 generate the postback URL in project settings ("Install attribution — Singular postbacks")
-and paste it into Singular as the app's Internal BI postback endpoint. There is no field
-template to configure — Singular POSTs its standard JSON payload in full; just call
-`SingularSDK.SetCustomUserId(AgentHog.AnonId)` in the game so the payload's `user_id`
-identifies the player, and enable the install (and re-engagement) postbacks. Network,
+and paste it into Singular as the app's Internal BI postback endpoint. Singular POSTs its
+standard JSON payload in full — in the game, call `SingularSDK.SetCustomUserId(...)` with an
+id AgentHog knows (the player's own `user_id` also sent via `Identify`, or `AgentHog.AnonId`)
+so the payload's `user_id` identifies the player, and enable the install (and re-engagement)
+postbacks. Point Singular at the URL directly, or relay a copy through the game's own
+backend — both hookups, and when to prefer which, are covered at
+`https://agenthog.io/docs/server#postbacks`. Network,
 campaign and creative names then land on the install session's `utm_*` columns (deep-link
 params keep precedence, and an "organic" answer never erases the built-in referrer verdict)
 and surface in `ah campaigns`, `ah user <ref>` (first/latest touch), and
@@ -224,7 +227,7 @@ TS, no framework wrapper; Ionic React/Vue/Angular all consume it the same way:
 import { AgentHog } from '@brightmotion/agenthog-capacitor'
 
 await AgentHog.init({
-  host: 'https://hog.brightmotion.io',              // https — iOS ATS applies to native requests too
+  host: 'https://agenthog.io',              // https — iOS ATS applies to native requests too
   projectKey: import.meta.env.VITE_AGENTHOG_KEY ?? '',
   enabled: !!import.meta.env.VITE_AGENTHOG_KEY,     // inert no-op without a key (dev builds)
   appName: 'myapp',
@@ -262,10 +265,10 @@ preview host in the project's domains.
 Some outcomes have no client running when they happen: a subscription renews, a provider
 webhook lands, a nightly job decides someone churned, or the user wants existing history
 backfilled. Those go to the same `/ingest` endpoint from the backend, authenticated with a
-**write-scope token** — an org admin mints it at `https://hog.brightmotion.io/tokens`.
+**write-scope token** — an org admin mints it at `https://agenthog.io/tokens`.
 
 ```bash
-curl -s https://hog.brightmotion.io/ingest \
+curl -s https://agenthog.io/ingest \
   -H "Authorization: Bearer $AGENTHOG_INGEST_TOKEN" \
   -H 'content-type: application/json' \
   -d '{"project":"ah_xxxxxxxx","anonId":"server:42","sessionId":"<uuid>",
@@ -306,7 +309,7 @@ midnight; a wall-clock time with no offset is the machine's local zone — the v
 which. No idempotency key: a second run writes every row again.
 
 Full reference, including the subscription-lifecycle event names the mobile dashboard reads:
-`https://hog.brightmotion.io/docs/server`.
+`https://agenthog.io/docs/server`.
 
 ## 8. Event naming — this is a contract, not a style preference
 
@@ -341,7 +344,7 @@ Do not tell the user it works because the code compiles. Confirm data arrived:
 2. Check, in order of preference:
    - `ah events --since 24h` — if the `ah` CLI is authenticated, this is the fastest proof
    - `ah digest` — sessions, sources, and top events in one report
-   - the dashboard at `https://hog.brightmotion.io` otherwise
+   - the dashboard at `https://agenthog.io` otherwise
 3. Expect a `pageview:` row within a few seconds — the web tracker flushes every 5s or every
    10 queued events; React Native, Unity, and Capacitor flush every 10s or every 20 events.
    Unity editor Play mode sends real events too (registered prop `platform: editor`).
@@ -387,7 +390,7 @@ Two follow-ups worth offering the user:
   Purchases relayed by a webhook (§7) count without any extra flag.
 - **Give their agent the read surface**: install the `ah` CLI (`npm i -g @brightmotion/agenthog`,
   then `ah login`) and add a short AgentHog section to `CLAUDE.md` so future sessions query
-  analytics instead of guessing. Full CLI docs: `https://hog.brightmotion.io/docs/cli`.
+  analytics instead of guessing. Full CLI docs: `https://agenthog.io/docs/cli`.
 
 To run an A/B test on top of this install (feature flags, experiments, variant metrics),
 use the separate **agenthog-experiment** skill, which ships alongside this one.

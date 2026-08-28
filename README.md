@@ -1,6 +1,6 @@
 # AgentHog for Claude Code
 
-Teaches your coding agent to install [AgentHog](https://hog.brightmotion.io) analytics and
+Teaches your coding agent to install [AgentHog](https://agenthog.io) analytics and
 run A/B tests, so you can ask in plain language instead of reading SDK docs.
 
 ## Install
@@ -31,7 +31,7 @@ the flag.
 ## Prerequisites
 
 - An AgentHog project key (`ah_xxxxxxxx`). Create a project at
-  [hog.brightmotion.io/projects/new](https://hog.brightmotion.io/projects/new). Project count
+  [agenthog.io/projects/new](https://agenthog.io/projects/new). Project count
   is capped by plan (Free: 1).
 - For experiments and for the agent to read your analytics back, the CLI:
 
@@ -42,9 +42,9 @@ the flag.
 
 ## Docs
 
-- Dashboard — [hog.brightmotion.io](https://hog.brightmotion.io)
-- CLI — [hog.brightmotion.io/docs/cli](https://hog.brightmotion.io/docs/cli)
-- Server-side ingest — [hog.brightmotion.io/docs/server](https://hog.brightmotion.io/docs/server)
+- Dashboard — [agenthog.io](https://agenthog.io)
+- CLI — [agenthog.io/docs/cli](https://agenthog.io/docs/cli)
+- Server-side ingest — [agenthog.io/docs/server](https://agenthog.io/docs/server)
 - Unity SDK — [github.com/AnniesAI/agenthog-unity](https://github.com/AnniesAI/agenthog-unity)
 
 ## License

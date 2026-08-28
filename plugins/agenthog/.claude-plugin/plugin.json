@@ -1,12 +1,12 @@
 {
   "name": "agenthog",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Add product analytics and A/B testing to any app with AgentHog. Picks the right SDK for the codebase, wires it in, verifies events arrive, then runs experiments from flag to shipped winner.",
   "author": {
     "name": "BrightMotion",
-    "url": "https://hog.brightmotion.io"
+    "url": "https://agenthog.io"
   },
-  "homepage": "https://hog.brightmotion.io",
+  "homepage": "https://agenthog.io",
   "repository": "https://github.com/AnniesAI/agenthog-claude",
   "license": "MIT",
   "keywords": ["analytics", "ab-testing", "feature-flags", "experiments", "react-native", "capacitor", "unity"],

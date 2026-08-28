@@ -129,4 +129,4 @@ Weeks later, once the winner is the only path anyone gets:
       retiring) the flag archived and its code path deleted
 
 Timeline of everything you did: `ah changes list --kind experiment`. Flags and
-results are also visible at https://hog.brightmotion.io/flags.
+results are also visible at https://agenthog.io/flags.
