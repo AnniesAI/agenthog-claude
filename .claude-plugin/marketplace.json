@@ -9,7 +9,7 @@
   "plugins": [
     {
       "name": "agenthog",
-      "description": "Add product analytics and A/B testing to any app with AgentHog. Picks the right SDK for the codebase, wires it in, verifies events arrive, then runs experiments from flag to shipped winner.",
+      "description": "Add product analytics, A/B testing and shared reports to any app with AgentHog. Picks the right SDK for the codebase, wires it in, verifies events arrive, runs experiments from flag to shipped winner, and writes reports with live charts the whole team reads.",
       "author": {
         "name": "BrightMotion",
         "url": "https://agenthog.io"

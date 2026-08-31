@@ -394,3 +394,6 @@ Two follow-ups worth offering the user:
 
 To run an A/B test on top of this install (feature flags, experiments, variant metrics),
 use the separate **agenthog-experiment** skill, which ships alongside this one.
+To write up the numbers as a shared report the whole organization reads in the dashboard
+(Markdown with live charts), use the **agenthog-report** skill, which also ships alongside
+this one.
