@@ -1,7 +1,8 @@
 # AgentHog for Claude Code
 
-Teaches your coding agent to install [AgentHog](https://agenthog.io) analytics and
-run A/B tests, so you can ask in plain language instead of reading SDK docs.
+Teaches your coding agent to install [AgentHog](https://agenthog.io) analytics, run A/B
+tests, and write shared reports with live charts, so you can ask in plain language instead
+of reading SDK docs.
 
 ## Install
 
@@ -28,22 +29,32 @@ the flag.
 > "set up an A/B test" · "roll this out to 10%" · "check the experiment results" ·
 > "ship the winner"
 
+**`agenthog:agenthog-report`** — writes up the numbers as a shared report: a Markdown file
+with live charts that everyone in the organization reads in the AgentHog dashboard. Learns
+the house format from an existing report, decides what stays live and at what TTL, excludes
+bot traffic in every live query, previews until clean, publishes, verifies by reading it
+back, and revises the same report on a schedule so its history stays intact.
+
+> "write up this week's numbers" · "make a report for the launch" · "update the weekly
+> report" · "why is that widget showing an error"
+
 ## Prerequisites
 
 - An AgentHog project key (`ah_xxxxxxxx`). Create a project at
   [agenthog.io/projects/new](https://agenthog.io/projects/new). Project count
   is capped by plan (Free: 1).
-- For experiments and for the agent to read your analytics back, the CLI:
+- For experiments, reports, and for the agent to read your analytics back, the CLI:
 
   ```
   npm i -g @brightmotion/agenthog
-  ah login          # add --write for experiments and server-side events
+  ah login          # add --write for experiments, reports and server-side events
   ```
 
 ## Docs
 
 - Dashboard — [agenthog.io](https://agenthog.io)
 - CLI — [agenthog.io/docs/cli](https://agenthog.io/docs/cli)
+- Shared reports — [agenthog.io/docs/reports](https://agenthog.io/docs/reports)
 - Server-side ingest — [agenthog.io/docs/server](https://agenthog.io/docs/server)
 - Unity SDK — [github.com/AnniesAI/agenthog-unity](https://github.com/AnniesAI/agenthog-unity)
 
