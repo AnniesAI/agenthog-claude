@@ -1,6 +1,6 @@
 {
   "name": "agenthog",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Add product analytics, A/B testing and shared reports to any app with AgentHog. Picks the right SDK for the codebase, wires it in, verifies events arrive, runs experiments from flag to shipped winner, and writes reports with live charts the whole team reads.",
   "author": {
     "name": "BrightMotion",

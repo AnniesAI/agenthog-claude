@@ -109,7 +109,7 @@ Rules the parser enforces — and the reasons behind them:
 - **Exactly one of `rows` or `sql`.** Keys: `widget title note width rows sql project projects
   since until ttl x series stack format labels`. `format` per column is one of `number percent
   currency duration seconds text`; `labels` renames columns; `width: "half"` puts two
-  widgets side by side.
+  widgets side by side, `width: "third"` three — good for a dense KPI band of stats.
 - **Column contracts** — the shape your rows or query must produce:
   - `stat`: exactly **one row**; every column is a tile. An optional second row is the
     comparison and draws a delta badge. Aggregate without `GROUP BY`.
