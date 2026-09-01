@@ -6,10 +6,30 @@ of reading SDK docs.
 
 ## Install
 
+On Claude Code, install the plugin. It carries all three skills, and updates arrive with
+`/plugin marketplace update agenthog`:
+
 ```
 /plugin marketplace add AnniesAI/agenthog-claude
 /plugin install agenthog@agenthog
 ```
+
+On any other agent — Codex, Cursor, Copilot, Gemini, Zed, Windsurf and around seventy more —
+the same three skills install in one command, into whichever directory that agent reads.
+It asks which agents and whether to scope them to this repo or your whole machine, and
+`npx skills update` refreshes them later:
+
+```
+npx skills add AnniesAI/agenthog-claude
+```
+
+Run one or the other, not both: in Claude Code the two paths install the same three skills
+side by side, and the agent loads each of them twice.
+
+Pointing an agent at a **self-hosted** AgentHog? Take the markdown from that deployment
+instead — the copies here are pinned to `https://agenthog.io`, while
+[agenthog.io/docs/skill](https://agenthog.io/docs/skill) serves each file with the host
+rewritten to whatever origin served it.
 
 You need an AgentHog project to point it at — the Free plan is enough for everything the
 skills do, no credit card. See [Prerequisites](#prerequisites).
