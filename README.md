@@ -11,6 +11,9 @@ of reading SDK docs.
 /plugin install agenthog@agenthog
 ```
 
+You need an AgentHog project to point it at — the Free plan is enough for everything the
+skills do, no credit card. See [Prerequisites](#prerequisites).
+
 ## What you get
 
 **`agenthog:agenthog-integrate`** — installs the right SDK for the project and confirms
@@ -40,9 +43,13 @@ back, and revises the same report on a schedule so its history stays intact.
 
 ## Prerequisites
 
+Free to try. The Free plan covers 1M events a month, 30 days of history, 1 project and 3
+team members, with no credit card — and every feature the skills use is on it: autocapture,
+funnels, revenue, experiments, shared reports, full CLI and API. Paid plans buy history,
+more projects and a bigger team ([pricing](https://agenthog.io/pricing)).
+
 - An AgentHog project key (`ah_xxxxxxxx`). Create a project at
-  [agenthog.io/projects/new](https://agenthog.io/projects/new). Project count
-  is capped by plan (Free: 1).
+  [agenthog.io/projects/new](https://agenthog.io/projects/new).
 - For experiments, reports, and for the agent to read your analytics back, the CLI:
 
   ```
