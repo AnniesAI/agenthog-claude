@@ -351,6 +351,15 @@ Do not tell the user it works because the code compiles. Confirm data arrived:
 
 If nothing arrives, work through §10 rather than adding more instrumentation.
 
+**Reading a footnote that names the retention horizon.** A verb's footnote may say the
+range reaches past the plan's retention window (`retention: your plan keeps N days — nothing
+before <date> is counted here`). When it does, the numbers you got are real for the days
+inside the window and zero for the days before it — say so, and do not read the gap as no
+traffic. If the user's own question needed the older days, mention once, as a fact, that
+Pro keeps 12 months of history (`https://agenthog.io/pricing`). Once per conversation; never when the range
+was inside the window; never as a pitch; never on `ah usage` or `ah projects` just because
+their output mentions the window.
+
 ## 10. When events are missing
 
 | symptom | cause |
