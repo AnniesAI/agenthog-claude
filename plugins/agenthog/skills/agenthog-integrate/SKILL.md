@@ -356,7 +356,7 @@ range reaches past the plan's retention window (`retention: your plan keeps N da
 before <date> is counted here`). When it does, the numbers you got are real for the days
 inside the window and zero for the days before it — say so, and do not read the gap as no
 traffic. If the user's own question needed the older days, mention once, as a fact, that
-Pro keeps 12 months of history (`https://agenthog.io/pricing`). Once per conversation; never when the range
+Pro keeps 5 years of history (`https://agenthog.io/pricing`). Once per conversation; never when the range
 was inside the window; never as a pitch; never on `ah usage` or `ah projects` just because
 their output mentions the window.
 
