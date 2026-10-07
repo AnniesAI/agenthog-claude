@@ -51,6 +51,16 @@ widget library with each widget's column contract and a working example.
   something people glance at during the working day `"1h"` (the default); liveops during a
   launch `"5m"`–`"15m"`. A report holds at most 24 live widgets, and every live widget is a
   query — keep it to the numbers that matter.
+- **Say how long your reading holds.** Every heading opens a section, and AgentHog dates each
+  section's prose from the revision that last changed it — so a section you did not touch
+  keeps its real age through any number of republishes. A section whose live data has run
+  more than 14 days past that date is marked **stale** on the page, and every time-series
+  chart in it draws a vertical marker at the date, separating the data the analysis saw from
+  the data that arrived after. Override the 14 days where you know better: put
+  `<!-- analysis ttl: 7d -->` inside a section (a launch readout ages in days, a quarterly
+  note in months), `<!-- analysis ttl: never -->` on an appendix that is history on purpose,
+  or `stale_after:` in the front matter for the whole report. The comment is metadata — no
+  renderer shows it, and editing it does not count as revising the paragraph beside it.
 - One report answers one question. Slug: lowercase letters, digits, hyphens; ≤ 64 chars.
 
 ## 3. Write the file
@@ -61,9 +71,12 @@ title: Weekly growth
 description: Where the funnel stands this week. Kept current by the growth agent.
 project: ah_xxxxxxxx          # default project for widgets that name none
 since: 7d                     # default window for live widgets (default 7d)
+stale_after: 14d              # mark a section stale once its prose is this old (optional)
 ---
 
 ## Where we are
+
+<!-- analysis ttl: 7d -->
 
 Signups are up 12% week over week (as of Aug 30), carried by the pricing page rewrite.
 The live numbers below recompute on their own — the line under each one says when.
@@ -102,7 +115,7 @@ Next: turn on the retention email once the [experiment](/flags) reads.
 Rules the parser enforces — and the reasons behind them:
 
 - **Front matter** keys: `title` (required, or pass `--title`), `description`, `project`,
-  `since`. Anything else is ignored with a warning.
+  `since`, `stale_after`. Anything else is ignored with a warning.
 - **A fence is strict JSON**: double quotes, no trailing commas, no comments. Only
   **top-level** fences are widgets — a fence inside a list or blockquote renders as a code
   block, and `preview` warns.
@@ -189,6 +202,10 @@ ah reports update weekly-growth --file weekly.md
 ah reports read weekly-growth                   # verify
 ```
 
+- `ah reports read <slug>` marks any section whose prose the numbers have outgrown
+  (`⚠ STALE · analysis updated … · data now runs to …`, with a count under the title). Start
+  a revision there: those are the paragraphs that are now lying to the reader. Rewriting the
+  prose clears the mark — touching the widgets around it does not.
 - `ah reports history <slug>` lists revisions; `ah reports diff <slug>` shows what the last
   update changed; `ah reports read <slug> --rev N` reads an older one. Create a new slug only
   when the reader wants separate per-period reports.
@@ -211,11 +228,12 @@ ah reports read weekly-growth                   # verify
 | `series column "x" is not numeric in every row` | a `NULL`/text value slipped in — `coalesce(…, 0)` |
 | `sql references :until but the widget sets no "until"` | add `"until"` or drop `:until` |
 | `only read-only SELECT / WITH queries are allowed` | one statement, no writes |
-| `query exceeded the 10000ms time limit` | narrow the window, aggregate more, add `LIMIT` |
+| `query exceeded the 10s time limit` | narrow the window, aggregate more, add `LIMIT` |
 | `project ah_… is not in this organization` | the key moved or is misspelt — `ah projects list` |
 | `widget names no project and the organization has N — set \`project:\`` | the org has several projects: set `project:` in the front matter or on the widget |
 | `N live widgets — the cap is 24` | freeze the ones that need not move as inline rows |
 | `a widget fence inside a list renders as a code block` | move the fence to the top level |
+| `unknown analysis directive "…"` | the only one is `<!-- analysis ttl: 7d \| never -->`, alone on its line |
 
 ## You are done when
 
@@ -225,6 +243,8 @@ ah reports read weekly-growth                   # verify
       bots are included
 - [ ] TTLs match how the reader watches the page (24h review · 1h daily · 5m–15m launch)
 - [ ] The prose dates its claims and says what to do next
+- [ ] No section is marked stale in `ah reports read <slug>` — you either rewrote it or said
+      with `<!-- analysis ttl: … -->` how long it should be trusted
 - [ ] You posted the report URL with a one-line summary, not the report body
 - [ ] For an update: the same slug got a new revision (`ah reports history <slug>`), and
       `ah reports diff <slug>` shows only what you meant to change
